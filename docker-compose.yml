@@ -1,0 +1,32 @@
+version: '3'
+
+services:
+  nginx:
+    image: nginx:latest
+    container_name: nginx-container
+    links:
+      - php
+    ports:
+      - 80:80
+    volumes:
+      - ./bank:/var/www
+      - ./nginx/default.conf:/etc/nginx/conf.d/default.conf
+  database:
+    container_name: database
+    image: mysql:8.0
+    command: --default-authentication-plugin=mysql_native_password
+    environment:
+      MYSQL_ROOT_PASSWORD: TPYJjxcwpXj6GmyLb6gkwnLFfz
+      MYSQL_DATABASE: bcalculator
+      MYSQL_USER: bob
+      MYSQL_PASSWORD: DG9iKc73bTZzavxXVPDFVJ2cSu
+    volumes:
+      - ./mysql:/var/lib/mysql
+  php:
+    container_name: php
+    build:
+      context: ./php
+    volumes:
+      - ./bank:/var/www/bank
+    depends_on:
+      - database
