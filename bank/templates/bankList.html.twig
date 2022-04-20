@@ -1,0 +1,53 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}List Banks{% endblock %}
+{% block body %}
+    {{ form(form) }}
+
+    <div class="accordion" id="accordionExample">
+        {% for bank in banks %}
+        <div class="accordion-item">
+            <h2 class="accordion-header" id="headingOne">
+                <button class="accordion-button" type="button" data-bs-toggle="collapse" data-bs-target="#collapseOne" aria-expanded="true" aria-controls="collapseOne">
+                     <h6>{{ bank.name }} <span class="badge bg-secondary">{% if bank.hasPublic %}
+                         Public
+                     {% endif %}
+                             {% if not bank.hasPublic %}
+                                 Your
+                             {% endif %}</span></h6>
+                </button>
+            </h2>
+            <div id="collapseOne" class="accordion-collapse collapse show" aria-labelledby="headingOne" data-bs-parent="#accordionExample">
+                <div class="accordion-body">
+                    <div class="d-grid gap-2 d-md-flex justify-content-md-end">
+                        <form action="{{ path("bank.delete", {id: bank.id}) }}" method="post">
+                            <input type="hidden" name="_method" value="DELETE" />
+                            <input type="submit"  class="btn btn-outline-danger" value="Delete" />
+                        </form>
+                        <a class="btn btn-primary" type="button" href="{{ path('bank.edit', {id: bank.id}) }}">Edit</a>
+                    </div>
+                    <div class="row">
+                        <div class="col">
+                            <ul class="list-group">
+                                <li class="list-group-item disabled" aria-disabled="true">Information Bank</li>
+                                <li class="list-group-item">Interest Rate: {{ bank.interestRate }}</li>
+                                <li class="list-group-item">Max Credit: {{ bank.maxCredit }}</li>
+                                <li class="list-group-item">Initail Fee: {{ bank.initialFee }}</li>
+                                <li class="list-group-item">Term: {{ bank.term}} </li>
+                            </ul>
+                        </div>
+                        {% if monthlyPayments is defined  %}
+                            <div class="col">
+                                <ul class="list-group">
+                                    <li class="list-group-item disabled" aria-disabled="true">Monthly payment</li>
+                                    <li class="list-group-item">{{ monthlyPayments[bank.id] }}</li>
+                                </ul>
+                            </div>
+                        {% endif %}
+                    </div>
+                </div>
+            </div>
+        </div>
+        {% endfor %}
+    </div>
+{% endblock %}

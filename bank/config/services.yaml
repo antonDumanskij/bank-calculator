@@ -26,5 +26,12 @@ services:
         resource: '../src/Controller/'
         tags: ['controller.service_arguments']
 
-    # add more service definitions when explicit configuration is needed
-    # please note that last definitions always *replace* previous ones
+    App\UseCase\BankInteractor:
+        public: true
+
+    App\Controller\BankController:
+        arguments:
+            - '@App\UseCase\BankInteractor'
+
+    App\Validator\Bank:
+        public: true

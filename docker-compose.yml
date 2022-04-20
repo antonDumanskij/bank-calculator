@@ -28,5 +28,7 @@ services:
       context: ./php
     volumes:
       - ./bank:/var/www/bank
+    links:
+      - database
     depends_on:
       - database
