@@ -4,8 +4,9 @@ declare(strict_types=1);
 
 namespace App\Controller;
 
+use App\Form\CreateBankType;
+use App\Model\Bank;
 use App\UseCase\BankInteractor;
-use Bank;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
@@ -26,7 +27,7 @@ class BankController extends AbstractController
     public function createBank(Request $request): Response
     {
         $bank = new Bank();
-        $form = $this->createForm(\CreateBankType::class, $bank);
+        $form = $this->createForm(CreateBankType::class, $bank);
         $form->handleRequest($request);
         if ($form->isSubmitted() && $form->isValid()){
             $this->bankInteractor->create($bank, $this->getUser());
@@ -54,7 +55,7 @@ class BankController extends AbstractController
         }
 
         $modal = Bank::serializationEntity($bank);
-        $form = $this->createForm(\CreateBankType::class, $modal);
+        $form = $this->createForm(CreateBankType::class, $modal);
         $form->handleRequest($request);
         if ($form->isSubmitted() && $form->isValid()){
             $this->bankInteractor->edit($id,$modal);

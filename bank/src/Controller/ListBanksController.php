@@ -4,6 +4,8 @@ declare(strict_types=1);
 
 namespace App\Controller;
 
+use App\Form\BankSelectionType;
+use App\Model\BankSelection;
 use App\UseCase\BankInteractor;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
@@ -24,8 +26,8 @@ class ListBanksController extends AbstractController
      */
     public function lissdts(Request $request): Response
     {
-        $bankSelect = new \BankSelection();
-        $form = $this->createForm(\BankSelectionType::class, $bankSelect);
+        $bankSelect = new BankSelection();
+        $form = $this->createForm(BankSelectionType::class, $bankSelect);
         $form->handleRequest($request);
         if ($form->isSubmitted() && $form->isValid()) {
             $banks = $this->bankInteractor->search($bankSelect, $this->getUser());

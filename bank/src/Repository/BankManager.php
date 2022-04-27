@@ -6,6 +6,7 @@ namespace App\Repository;
 
 use App\Entity\Banks;
 use App\Entity\User;
+use App\Model\BankSelection;
 
 class BankManager
 {
@@ -21,7 +22,7 @@ class BankManager
         $this->repository->add($bank, true);
     }
 
-    public function search(\BankSelection $bankSelect, User $user): array
+    public function search(BankSelection $bankSelect, User $user): array
     {
         return $this->repository->searchByParams($bankSelect->getMaxCredit(), $bankSelect->getInitialFee(), $user);
     }

@@ -6,8 +6,9 @@ namespace App\UseCase;
 
 use App\Entity\Banks;
 use App\Entity\User;
+use App\Model\Bank;
+use App\Model\BankSelection;
 use App\Repository\BankManager;
-use Bank;
 
 class BankInteractor
 {
@@ -18,7 +19,7 @@ class BankInteractor
         $this->bankManager = $bankManager;
     }
 
-    public function search(\BankSelection $bankSelect, User $user): array
+    public function search(BankSelection $bankSelect, User $user): array
     {
         return $this->bankManager->search($bankSelect, $user);
     }
@@ -95,7 +96,7 @@ class BankInteractor
         $this->bankManager->save($bank);
     }
 
-    public function calculMonthlyPayments(array $banks, \BankSelection $params): array
+    public function calculMonthlyPayments(array $banks, BankSelection $params): array
     {
         $monthlyPayments = [];
         foreach ($banks as $bank) {
